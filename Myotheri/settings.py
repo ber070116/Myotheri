@@ -25,7 +25,7 @@ SECRET_KEY = '5mr6b+ton5_b8c1gtv=ea+@nr%dbbr$e$aire0p!j1q4&@kql)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,8 +38,31 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'apps.usuario',
+    # permite hacer eticiones con javascript
+    'corsheaders',
 ]
+
+# configuracion django rest_framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+# CORS
+CORS_ORIGIN_WHITELIST = (
+    'google.com',
+    'localhost:8000',
+    '0.0.0.0:8000',
+    'myotheri-brandomhk434243.codeanyapp.com:3000'
+)
 
 # my user model
 AUTH_USER_MODEL = 'usuario.Usuario'
@@ -52,6 +75,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'Myotheri.urls'
