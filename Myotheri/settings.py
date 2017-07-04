@@ -25,7 +25,7 @@ SECRET_KEY = '5mr6b+ton5_b8c1gtv=ea+@nr%dbbr$e$aire0p!j1q4&@kql)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['myotheri-brandomhk434243.codeanyapp.com']
 
 
 # Application definition
@@ -38,8 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'apps.usuario',
 ]
+
+# configuracion django rest_framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 
 # my user model
 AUTH_USER_MODEL = 'usuario.Usuario'

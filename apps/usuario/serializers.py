@@ -4,6 +4,7 @@ from .models import Usuario
 
 # serializacion
 class UsuarioSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Usuario
         fields = (
