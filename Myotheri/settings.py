@@ -25,12 +25,7 @@ SECRET_KEY = '5mr6b+ton5_b8c1gtv=ea+@nr%dbbr$e$aire0p!j1q4&@kql)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
 ALLOWED_HOSTS = ['*']
-=======
-ALLOWED_HOSTS = ['myotheri-brandomhk434243.codeanyapp.com']
->>>>>>> b943a4eb38602a92897fe417312558c533206bda
-
 
 # Application definition
 
@@ -60,7 +55,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-<<<<<<< HEAD
 # CORS
 CORS_ORIGIN_WHITELIST = (
     'google.com',
@@ -69,8 +63,6 @@ CORS_ORIGIN_WHITELIST = (
     'myotheri-brandomhk434243.codeanyapp.com:3000'
 )
 
-=======
->>>>>>> b943a4eb38602a92897fe417312558c533206bda
 # my user model
 AUTH_USER_MODEL = 'usuario.Usuario'
 
