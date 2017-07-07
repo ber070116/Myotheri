@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'apps.usuario',
+    'apps.user',
     # permite hacer eticiones con javascript
     'corsheaders',
 ]
@@ -64,7 +64,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 # my user model
-AUTH_USER_MODEL = 'usuario.Usuario'
+AUTH_USER_MODEL = 'user.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

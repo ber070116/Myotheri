@@ -9,53 +9,53 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 
-class UsuarioManager(BaseUserManager):
-    def crear_usuario(
+class UserManager(BaseUserManager):
+    def create_user(
         self,
-        nombre_usuario,
+        username,
         email,
-        fecha_nacimiento,
-        clave=None
+        date_of_birth,
+        password=None
     ):
-        if not email and not nombre_usuario:
+        if not email and not username:
             raise ValueError('Users must have an email address')
 
-        usuario = self.model(
-            nombre_usuario=nombre_usuario,
+        user = self.model(
+            username=username,
             email=self.normalize_email(email),
-            fecha_nacimiento=fecha_nacimiento,
+            date_of_birth=date_of_birth,
         )
 
-        usuario.set_password(clave)
-        usuario.save(using=self._db)
-        return usuario
+        user.set_password(clave)
+        user.save(using=self._db)
+        return user
 
     # funci
-    def crear_superusuario(
+    def create_superuser(
         self,
-        nombre_usuario,
+        username,
         email,
-        fecha_nacimiento,
-        clave
+        date_of_birth,
+        password
     ):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
-        usuario = self.crear_usuario(
-            nombre_usuario,
+        user = self.create_user(
+            username,
             email,
-            clave=clave,
-            fecha_nacimiento=fecha_nacimiento,
+            password=password,
+            date_of_birth=date_of_birth,
         )
-        usuario.administrador = True
-        usuario.save(using=self._db)
-        return usuario
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
 
-class Usuario(AbstractBaseUser):
+class User(AbstractBaseUser):
     # colores para el select
-    COLORES = (
+    COLORS = (
         ('white', 'Blanco'),
         ('silver', 'Plata'),
         ('gray', 'Gris'),
@@ -74,7 +74,7 @@ class Usuario(AbstractBaseUser):
         ('purple', 'Purpura')
     )
 
-    GENEROS_MUSICALES = (
+    MUSICAL_GENRES = (
         ('alternativo', 'Alternativo'),
         ('anime', 'Anime'),
         ('arabe', 'Arabe'),
@@ -144,7 +144,7 @@ class Usuario(AbstractBaseUser):
         ('vallenatos', 'Vallenatos'),
     )
 
-    DEPORTES = (
+    SPORTS = (
         ('ala_delta', 'Ala delta'),
         ('acrobacia', 'Acrobacia'),
         ('acuatlon', 'Acuatlón'),
@@ -257,55 +257,55 @@ class Usuario(AbstractBaseUser):
         ('ximnasia_rítmica', 'Ximnasia rítmica')
     )
 
-    nombre_usuario = models.CharField(max_length=25, unique=True)
+    username = models.CharField(max_length=25, unique=True)
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
         unique=True,
     )
-    fecha_nacimiento = models.DateField()
-    activo = models.BooleanField(default=True)
-    administrador = models.BooleanField(default=False)
+    date_of_birth = models.DateField()
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
 
     # gustos
     # COLOR
-    color_favorito = models.CharField(
+    favorite_color = models.CharField(
         max_length=8,
-        choices=COLORES,
+        choices=COLORS,
         default='white'
     )
 
     # GENERO
-    genero_musical = models.CharField(
+    musical_genres = models.CharField(
         max_length=15,
-        choices=GENEROS_MUSICALES,
+        choices=MUSICAL_GENRES,
         default='alternativo'
     )
-    numero_favorito = models.IntegerField(null=True)
+    favorite_number = models.IntegerField(null=True)
 
     # DEPORTE
-    deporte_favorito = models.CharField(
+    favorite_sport = models.CharField(
         max_length=30,
-        choices=DEPORTES,
+        choices=SPORTS,
         default='futbol'
     )
     hobby = models.CharField(max_length=25)
 
-    objects = UsuarioManager()
+    objects = UserManager()
 
-    USERNAME_FIELD = 'nombre_usuario'
-    REQUIRED_FIELDS = ['email', 'fecha_nacimiento']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'date_of_birth']
 
-    def get_nombre_usuario(self):
+    def get_username(self):
 
-        return self.nombre_usuario
+        return self.username
 
     def get_email(self):
 
         return self.email
 
     def __str__(self):
-        return self.nombre_usuario
+        return self.username
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -321,7 +321,7 @@ class Usuario(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
-        return self.administrador
+        return self.is_admin
 
 
 # token para los usuarios
